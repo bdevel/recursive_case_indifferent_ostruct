@@ -1,10 +1,19 @@
-Recursive Case Indifferent Ostruct
-#####################################
-Takes a hash of snake, camel, train, or kabab case and make its
-attributes accessible with snake, camel, train, or kabab case.
+# Recursive Case Indifferent Ostruct
 
-The main usecase is working with JSON from an API and standardizing
-to a Ruby-centric underscore/snake interface.
+Takes a hash of snake, camel, train, or kabab case and make its
+attributes accessible with any other case.
+
+The main application is for working with JSON from an API and standardizing
+to a Ruby-centric underscore/snake case interface.
+
+##Usage
+
+Gemfile
+
+```ruby
+gem "recursive_case_indifferent_ostruct"
+````
+
 
 ## Examples
 ```ruby
@@ -15,17 +24,20 @@ user = RecursiveCaseIndifferentOstruct.new({
   "Birth-Place" => "Springfield",
   "father"      => {
     "age"     72
-  }
+  },
+  "siblings"    => [
+    {relation: "brother", age: 12}
+  ]
 }, :lower_camel)
 
 # access attributes like so
 user.first_name # "Tommy"
 user.last_name # "Johnson"
 user.father.age # 72
+user.siblings[0].age # 12
 
-user.birth_place = 'New York' # set fields
-user.first_name = "Ken" # sets {"firstName" => "Ken", "first-name" => "Ken"}
-
+user.birth_place    = "New York" # set fields
+user.first_name     = "Ken" # sets {"firstName" => "Ken", "first-name" => "Ken"}
 user.mothers_maiden = "Woods" # Since case is mixed in that hash, use default :lower_camel
 
 
@@ -38,6 +50,9 @@ user.to_h
 #   "father"      => {
 #     "age"     72
 #   },
+#   "siblings"    => [
+#     {relation: "brother", age: 12}
+#   ],
 #   "mothersMaiden" => "Woods",
 # }
 ```
@@ -46,8 +61,8 @@ user.to_h
 ### Case Matching
 Since the key matching is fuzzy, should there be two attributes with
 the same name but different case (`first-name` and `firstName`), the
-library will return first value that it finds, or for an assignment,
-will assign both attributes to the new value.
+library will return first value that it finds. For an assignment it
+will assign all matching attributes to the new value.
 
 ### Default Case
 Should you assign an attribute to the hash that does not already exist

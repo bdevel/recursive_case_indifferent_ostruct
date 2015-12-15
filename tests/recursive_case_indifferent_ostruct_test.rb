@@ -89,12 +89,18 @@ describe RecursiveCaseIndifferentOstruct do
       assert_equal 456, obj.to_h["other-key"]
       assert_equal 456, hash["other-key"]
     end
+
+    it "will change attr to default case" do
+      obj = RecursiveCaseIndifferentOstruct.new({}, :lower_camel)
+      obj.foo_bar = 123
+      assert_equal({"fooBar" => 123}, obj.to_h)
+    end
     
     it "can get existing values" do
       obj = RecursiveCaseIndifferentOstruct.new({"myKey" => 123})
       assert_equal 123, obj.my_key
     end
-
+    
     it "nil is default get" do
       obj = RecursiveCaseIndifferentOstruct.new({"myKey" => 123})
       assert_equal nil, obj.other_key
