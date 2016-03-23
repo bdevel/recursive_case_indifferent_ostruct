@@ -59,7 +59,7 @@ user.to_h
 
 
 ```
-# .merge() is case insensative
+# .merge() is case insensitive
 user = RecursiveCaseIndifferentOstruct.new(first_name: "Bob")
 new_user = user.merge({"FirstName" => "Bobby"})
 new_user.first_name # Bobby
