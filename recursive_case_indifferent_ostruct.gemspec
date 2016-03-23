@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = 'recursive_case_indifferent_ostruct'
-  s.version     = '0.1'
-  s.date        = '2015-12-15'
+  s.version     = '0.1.1'
+  s.date        = '2016-03-23'
   s.summary     = "Access JSON or Hashes attributes without regards to snake_case, camelCase, or kabab-case."
   s.description = "See github."
   s.authors     = ["Tyler Roberts"]

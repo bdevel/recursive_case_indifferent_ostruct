@@ -19,6 +19,20 @@ class RecursiveCaseIndifferentOstruct
   def []=(key, value)
     handle_assignment(key, value, true)
   end
+
+  def merge(other_hash)
+    out = self.dup
+    other_hash.each do |k, v|
+      out.send("#{k}=", v)
+    end
+    out
+  end
+  
+  def merge!(other_hash)
+    other_hash.each do |k, v|
+      send("#{k}=", v)
+    end
+  end
   
   def method_missing(method_sym, *args, &block)
     method_name   = method_sym.to_s

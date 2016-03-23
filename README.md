@@ -36,7 +36,7 @@ user.last_name # "Johnson"
 user.father.age # 72
 user.siblings[0].age # 12
 
-user.birth_place    = "New York" # set fields
+user.birth_place    = "New York" # sets Birth-Place
 user.first_name     = "Ken" # sets {"firstName" => "Ken", "first-name" => "Ken"}
 user.mothers_maiden = "Woods" # Since case is mixed in that hash, use default :lower_camel
 
@@ -44,7 +44,7 @@ user.mothers_maiden = "Woods" # Since case is mixed in that hash, use default :l
 user.to_h
 # {
 #   "firstName"   => "Ken",
-#   "first-name"  => "Bobby",
+#   "first-name"  => "Ken",
 #   "LAST_NAME"   => "Johnson",
 #   "Birth-Place" => "New York",
 #   "father"      => {
@@ -57,6 +57,18 @@ user.to_h
 # }
 ```
 
+
+```
+# .merge() is case insensative
+user = RecursiveCaseIndifferentOstruct.new(first_name: "Bob")
+new_user = user.merge({"FirstName" => "Bobby"})
+new_user.first_name # Bobby
+user.first_name # Bob
+
+user.merge!({"FirstName" => "Bobby"})
+user.first_name # Bobby
+
+```
 
 ### Case Matching
 Since the key matching is fuzzy, should there be two attributes with
@@ -89,6 +101,7 @@ The value can still be accessed via `json.pi_value`.
 if the method is not defined and there is not attribute matching that
 name. However, all the hash methods operate on the original hash, so
 `#has_key?`, `#each`, `#fetch`, etc, will not be case-indifferent.
+Feel free to implement them and submit a PR.
 
 ```ruby
 json = RecursiveCaseIndifferentOstruct.new({

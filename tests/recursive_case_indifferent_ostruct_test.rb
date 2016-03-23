@@ -95,6 +95,13 @@ describe RecursiveCaseIndifferentOstruct do
       obj.foo_bar = 123
       assert_equal({"fooBar" => 123}, obj.to_h)
     end
+
+    it "will set all matching keys" do
+      obj = RecursiveCaseIndifferentOstruct.new({:firstName => "John", "first-name" => 'Patty'}, :lower_camel)
+      obj.first_name = 'Bob'
+      assert_equal({:firstName=>"Bob", "first-name"=>"Bob"}, obj.to_h)
+    end
+    
     
     it "can get existing values" do
       obj = RecursiveCaseIndifferentOstruct.new({"myKey" => 123})
@@ -179,7 +186,20 @@ describe RecursiveCaseIndifferentOstruct do
     
   end
 
-
+  describe "#merge" do
+    it "merges with case insensitivity" do
+      obj = RecursiveCaseIndifferentOstruct.new(foo: 1234)
+      new_obj = obj.merge({"Foo" => 'new-value'})
+      assert_equal 'new-value', new_obj.foo
+    end
+    
+    it "merges with case insensitivity" do
+      obj = RecursiveCaseIndifferentOstruct.new(foo: 1234)
+      obj.merge!({"Foo" => 'new-value'})
+      assert_equal 'new-value', obj.foo
+    end
+    
+  end
   
   describe "acting like a hash" do
     it "has #has_key?" do
@@ -205,8 +225,6 @@ describe RecursiveCaseIndifferentOstruct do
       assert_equal false, obj.has_key?("MyKey")
       assert_equal true, obj.has_key?("other-key") # wont delete this
     end
-    
-    
   end
   
 end
